@@ -1,6 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="https://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.tiny</groupId>
   <artifactId>tiny-enterprise</artifactId>
@@ -19,6 +19,8 @@
     <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
     <build.date>${maven.build.timestamp}</build.date>
     <jdk.version>1.8</jdk.version>
+    <mail.version>1.6.2</mail.version>
+    <activation.version>1.2.0</activation.version>
     <junit4.version>4.12</junit4.version>
     <junit5.version>5.5.2</junit5.version>
     <junit.platform.version>1.5.2</junit.platform.version>
@@ -228,11 +230,24 @@
         <artifactId>jaxb-impl</artifactId>
         <version>2.3.1</version>
     </dependency>
+    <!-- Java Mail API Begin -->
     <dependency>
-        <groupId>javax.activation</groupId>
-        <artifactId>activation</artifactId>
-        <version>1.1.1</version>
+      <groupId>javax.mail</groupId>
+      <artifactId>javax.mail-api</artifactId>
+      <version>${mail.version}</version>
     </dependency>
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>javax.activation-api</artifactId>
+      <version>${activation.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- Java Mail API End -->
     <!-- Unit Testing -->
     <!-- JUnit5 Testing -->
     <dependency>

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.tiny.service.ServiceLocator;
 import net.tiny.ws.client.SimpleClient;
 
 public class EndpointServiceTest {
@@ -33,10 +34,13 @@ public class EndpointServiceTest {
         LogManager.getLogManager()
             .readConfiguration(Thread.currentThread().getContextClassLoader().getResourceAsStream("logging.properties"));
 
+        ServiceLocator context = new ServiceLocator();
         AccessLogger logger = new AccessLogger();
         SnapFilter snap = new SnapFilter();
 
         final CalculatorServer endpoint = new CalculatorServer();
+        endpoint.setContext(context);
+
         final WebServiceHandler handler = endpoint
                 .path("/endpoint")
                 .filters(Arrays.asList(logger, snap));
@@ -72,10 +76,11 @@ public class EndpointServiceTest {
                 assertEquals(client.getStatus(), HttpURLConnection.HTTP_OK);
                 assertEquals("text/xml;charset=utf-8", client.getHeader("Content-Type"));
                 //assertTrue(client.getContents().length > 1024);
-                //System.out.print(new String(client.getContents()));
+
                 final String contets = new String(client.getContents());
+                System.out.print(contets);
                 assertTrue(contets.contains("<port name=\"CalculatorServicePort\" binding=\"tns:CalculatorServicePortBinding\">"));
-                String address = String.format("<soap:address location=\"http://localhost:%d/endpoint\"></soap:address>", port);
+                String address = String.format("<soap:address location=\"http://localhost:%d/endpoint\"/>", port);
                 assertTrue(contets.contains(address));
             } else {
                 Throwable err = callback.cause();

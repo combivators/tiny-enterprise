@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -67,12 +68,16 @@ public class TransformerTest {
         Properties prop = new Properties();
         prop.setProperty("tom", "abc123");
         prop.setProperty("cat", "456");
-        assertEquals("tom:'abc123', cat:'456'", Transformer.format(prop));
+        String ret = Transformer.format(prop);
+        assertTrue(ret.contains("tom:'abc123'"));
+        assertTrue(ret.contains("cat:'456'"));
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("tom", "abc123");
         map.put("cat", "456");
-        assertEquals("{\"tom\":\"abc123\", \"cat\":\"456\"}", Transformer.format(map));
+        ret = Transformer.format(map);
+        assertTrue(ret.contains("\"cat\":\"456\""));
+        assertTrue(ret.contains("\"tom\":\"abc123\""));
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(1445086050000l);
