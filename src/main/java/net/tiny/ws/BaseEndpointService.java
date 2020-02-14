@@ -1,8 +1,9 @@
 package net.tiny.ws;
 
 import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 
 import javax.jws.WebService;
@@ -10,19 +11,19 @@ import javax.xml.ws.Endpoint;
 
 public abstract class BaseEndpointService extends  AbstractWebService {
 
+    @Override
+    public void handle(HttpExchange he) throws IOException {
+        throw new UnsupportedOperationException("Endpoint service not support httpserver handler.");
+    }
+
     // javax.xml.ws.Endpoint
     @Override
     public boolean isEndpoint() {
-    	boolean ret = (this instanceof HttpHandler);
-        if (!ret) {
-        	ret = getClass().isAnnotationPresent(WebService.class);
-        }
-        return ret;
+        return getClass().isAnnotationPresent(WebService.class);
     }
 
     @Override
     public <T> T getBinding(Class<T> classType) {
-    	System.out.println(classType.getName()); //TODO
         if(classType.isInstance(this)) {
             // Has HttpHandler interface
             return classType.cast(this);
@@ -37,7 +38,7 @@ public abstract class BaseEndpointService extends  AbstractWebService {
 
     @Override
     public void publish(HttpContext serverContext) {
-    	ExecutorService executor = (ExecutorService)serverContext.getAttributes().get(ExecutorService.class.getName());
+        ExecutorService executor = (ExecutorService)serverContext.getAttributes().get(ExecutorService.class.getName());
         //Setup a endpoint
         Endpoint endpoint = getBinding(Endpoint.class);
         endpoint.setExecutor(executor);

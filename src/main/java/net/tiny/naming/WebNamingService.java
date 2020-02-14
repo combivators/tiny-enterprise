@@ -155,7 +155,7 @@ public class WebNamingService extends BaseEndpointService implements NamingServi
     }
 
     public static boolean isEndpoint(Object bean) {
-        if (null == bean || bean instanceof HttpHandler) {
+        if (null == bean) {
             return false;
         }
         return bean.getClass().isAnnotationPresent(WebService.class);
@@ -206,6 +206,4 @@ public class WebNamingService extends BaseEndpointService implements NamingServi
         }
         return attr;
     }
-
-
 }

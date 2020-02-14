@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import net.tiny.context.WebServiceLocator;
+import net.tiny.service.ServiceContext;
 import net.tiny.service.ServiceLocator;
 import net.tiny.ws.AccessLogger;
 import net.tiny.ws.BaseEndpointService;
@@ -47,7 +48,7 @@ public class NamingServiceTest {
 
         final Integer pid = 100;
 
-        final ServiceLocator.ServiceMonitor monitor = new ServiceLocator.ServiceMonitor();
+        final ServiceContext.Monitor monitor = new ServiceContext.Monitor();
         final ServiceLocator serviceContext = new ServiceLocator();
         serviceContext.setListener(monitor);
         final Map<String, Object> collection = new HashMap<>();
